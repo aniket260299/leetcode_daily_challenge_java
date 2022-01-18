@@ -1,0 +1,48 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int minJumps(int[] arr) {
+        int n = arr.length;
+        if (n <= 1) return 0;
+
+        HashMap<Integer, List<Integer>> hm = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            hm.computeIfAbsent(arr[i], v -> new LinkedList<>()).add(i);
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        q.add(0);
+        int steps = 0;
+
+        while (!q.isEmpty()) {
+            steps++;
+            int size = q.size();
+
+
+            for (int i = 0; i < size; i++) {
+                int j = q.remove();
+                if (j - 1 >= 0 && hm.containsKey(arr[j - 1])) {
+                    q.add(j - 1);
+                }
+
+                if (j + 1 < n && hm.containsKey(arr[j + 1])) {
+                    if (j + 1 == n - 1) return steps;
+                    q.add(j + 1);
+                }
+
+                if (hm.containsKey(arr[j])) {
+                    for (int val : hm.get(arr[j])) {
+                        if (val != j) {
+                            if (val == n - 1) return steps;
+                            q.add(val);
+                        }
+                    }
+                    hm.remove(arr[j]);
+                }
+            }
+
+        }
+        return steps;
+    }
+}
