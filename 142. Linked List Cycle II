@@ -1,0 +1,29 @@
+/**
+ * @author Aniket
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null)
+            return null;
+        ListNode bCycle = findCycle(head);
+        if (bCycle == null)
+            return null;
+        while (head != bCycle) {
+            head = head.next;
+            bCycle = bCycle.next;
+        }
+        return head;
+    }
+
+    public ListNode findCycle(ListNode head) {
+        ListNode fast, slow;
+        fast = slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow)
+                return slow;
+        }
+        return null;
+    }
+}
