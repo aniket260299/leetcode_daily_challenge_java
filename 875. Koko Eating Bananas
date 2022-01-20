@@ -1,0 +1,33 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int n = piles.length;
+        int max = piles[0];
+        for (int i = 1; i < n; i++)
+            max = Math.max(max, piles[i]);
+        int result = binarySearch(piles, n, h, 1, max);
+        return result;
+
+    }
+
+    public int binarySearch(int[] piles, int n, int h, int l, int r) {
+        if (l > r)
+            return 0;
+        int x = h;
+        int mid = (l + r) / 2;
+        for (int i = 0; i < n; i++) {
+            x -= Math.ceil((double) piles[i] / mid);
+        }
+
+        if (x < 0) {
+            return binarySearch(piles, n, h, mid + 1, r);
+        } else {
+            int nv = binarySearch(piles, n, h, l, mid - 1);
+            if (nv == 0)
+                return mid;
+            else return nv;
+        }
+    }
+}
