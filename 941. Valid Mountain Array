@@ -1,0 +1,43 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public boolean validMountainArray(int[] arr) {
+        int N = arr.length;
+        if (N < 3)
+            return false;
+        boolean inc, dec;
+        inc = dec = false;
+        for (int i = 1; i < N; i++) {
+            if (arr[i - 1] == arr[i])
+                return false;
+            else if (arr[i - 1] < arr[i]) {
+                if (inc) {
+                    if (dec)
+                        return false;
+                    else
+                        continue;
+                } else {
+                    if (dec)
+                        return false;
+                    else
+                        inc = true;
+                }
+            } else {
+                if (dec) {
+                    if (inc)
+                        continue;
+                    else
+                        return false;
+                } else {
+                    if (inc)
+                        dec = true;
+                    else
+                        return false;
+                }
+            }
+        }
+
+        return inc && dec;
+    }
+}
