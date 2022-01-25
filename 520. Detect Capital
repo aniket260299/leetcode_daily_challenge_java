@@ -1,0 +1,20 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        boolean all = true;
+        boolean none = true;
+        boolean first = true;
+        char c = word.charAt(0);
+        first = c >= 'A' && c <= 'Z';
+        for (int i = 1; i < word.length(); i++) {
+            c = word.charAt(i);
+            if (none && c >= 'A' && c <= 'Z')
+                none = false;
+            if (all && (c < 'A' || c > 'Z'))
+                all = false;
+        }
+        return first && none || first && all || !first && none;
+    }
+}
