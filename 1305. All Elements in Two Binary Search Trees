@@ -1,0 +1,87 @@
+/**
+ * @author Aniket
+ */
+class Pair {
+    TreeNode node;
+    int state;
+
+    Pair(TreeNode node, int state) {
+        this.node = node;
+        this.state = state;
+    }
+}
+
+class Solution {
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        ArrayList<Integer> tree1 = new ArrayList<>();
+        ArrayList<Integer> tree2 = new ArrayList<>();
+
+        Stack<Pair> st = new Stack<>();
+        if (root1 != null) {
+            st.push(new Pair(root1, 0));
+            while (!st.isEmpty()) {
+                Pair p = st.peek();
+                if (p.state == 0) {
+                    if (p.node.left != null)
+                        st.push(new Pair(p.node.left, 0));
+                    p.state++;
+                } else if (p.state == 1) {
+                    tree1.add(p.node.val);
+                    if (p.node.right != null)
+                        st.push(new Pair(p.node.right, 0));
+                    p.state++;
+                } else {
+                    st.pop();
+
+                }
+            }
+        }
+
+        if (root2 != null) {
+            st = new Stack<>();
+            st.push(new Pair(root2, 0));
+            while (!st.isEmpty()) {
+                Pair p = st.peek();
+                if (p.state == 0) {
+                    if (p.node.left != null)
+                        st.push(new Pair(p.node.left, 0));
+                    p.state++;
+                } else if (p.state == 1) {
+                    tree2.add(p.node.val);
+                    if (p.node.right != null)
+                        st.push(new Pair(p.node.right, 0));
+                    p.state++;
+                } else {
+                    st.pop();
+
+                }
+            }
+        }
+        ArrayList<Integer> sorted = new ArrayList<Integer>();
+
+        int i, j;
+        i = j = 0;
+        while (i < tree1.size() && j < tree2.size()) {
+            int a = tree1.get(i);
+            int b = tree2.get(j);
+            if (a < b) {
+                sorted.add(tree1.get(i));
+                i++;
+            } else {
+                sorted.add(tree2.get(j));
+                j++;
+            }
+        }
+
+        while (i < tree1.size()) {
+            sorted.add(tree1.get(i));
+            i++;
+        }
+
+        while (j < tree2.size()) {
+            sorted.add(tree2.get(j));
+            j++;
+        }
+        return sorted;
+    }
+}
