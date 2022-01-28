@@ -1,0 +1,63 @@
+/**
+ * @author Aniket
+ */
+class Node {
+    char data;
+    Node[] child;
+    boolean isWord;
+
+    Node(char data) {
+        this.data = data;
+        this.child = new Node[26];
+        isWord = false;
+    }
+}
+
+class WordDictionary {
+    Node root;
+
+    public WordDictionary() {
+        root = new Node('X');
+    }
+
+    public void addWord(String word) {
+        Node curr = root;
+        int n = word.length();
+        for (int i = 0; i < n; i++) {
+            char ch = word.charAt(i);
+            if (curr.child[ch - 'a'] == null) {
+                Node temp = new Node(ch);
+                curr.child[ch - 'a'] = temp;
+                curr = temp;
+
+            } else {
+                curr = curr.child[ch - 'a'];
+            }
+        }
+        curr.isWord = true;
+    }
+
+    public boolean search(String word) {
+        return searchHelper(root, word, 0, word.length() - 1);
+    }
+
+    public boolean searchHelper(Node node, String str, int i, int j) {
+        Node curr = node;
+        for (int k = i; k <= j; k++) {
+            char ch = str.charAt(k);
+            if (ch == '.') {
+                for (Node key : curr.child) {
+                    if (key != null && searchHelper(key, str, k + 1, j))
+                        return true;
+                }
+                return false;
+            } else {
+                if (curr.child[ch - 'a'] == null)
+                    return false;
+                else
+                    curr = curr.child[ch - 'a'];
+            }
+        }
+        return curr.isWord;
+    }
+}
