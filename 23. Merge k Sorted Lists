@@ -1,0 +1,78 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        int n = lists.length;
+        if (n == 0)
+            return null;
+        while (n > 1) {
+            boolean isOdd = false;
+            int k;
+            if (n % 2 == 0)
+                k = n / 2;
+            else {
+                k = n / 2 + 1;
+                isOdd = true;
+            }
+            ListNode[] li = new ListNode[k];
+            int j = 0;
+            for (int i = 0; i < n - 1; i += 2) {
+                li[j++] = merge2List(lists[i], lists[i + 1]);
+            }
+            if (isOdd)
+                li[j] = lists[n - 1];
+            lists = li;
+            n = k;
+
+        }
+        return lists[0];
+    }
+
+    public ListNode merge2List(ListNode li1, ListNode li2) {
+        ListNode head = null;
+        ListNode tail = null;
+        while (li1 != null && li2 != null) {
+            ListNode temp;
+            if (li1.val <= li2.val) {
+                temp = new ListNode(li1.val, null);
+                li1 = li1.next;
+            } else {
+                temp = new ListNode(li2.val, null);
+                li2 = li2.next;
+            }
+
+            if (head == null) {
+                head = tail = temp;
+            } else {
+                tail.next = temp;
+                tail = temp;
+            }
+        }
+
+        while (li1 != null) {
+            ListNode temp = new ListNode(li1.val, null);
+            li1 = li1.next;
+
+            if (head == null) {
+                head = tail = temp;
+            } else {
+                tail.next = temp;
+                tail = temp;
+            }
+        }
+
+        while (li2 != null) {
+            ListNode temp = new ListNode(li2.val, null);
+            li2 = li2.next;
+
+            if (head == null) {
+                head = tail = temp;
+            } else {
+                tail.next = temp;
+                tail = temp;
+            }
+        }
+        return head;
+    }
+}
