@@ -1,0 +1,31 @@
+/**
+ * @author Aniket
+ */
+ class Solution {
+    public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        int k = 1;
+        int count = 1;
+        int val = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (nums[i] == val) {
+                if (count < 2) {
+                    nums[k++] = nums[i];
+                    count++;
+                } else {
+                    while (i < n && nums[i] == val) {
+                        i++;
+                    }
+                    if (i < n) {
+                        nums[k++] = val = nums[i];
+                        count = 1;
+                    }
+                }
+            } else {
+                nums[k++] = val = nums[i];
+                count = 1;
+            }
+        }
+        return k;
+    }
+}
