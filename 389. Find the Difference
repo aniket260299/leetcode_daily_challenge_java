@@ -1,0 +1,25 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int[] freq1 = new int[26];
+        int[] freq2 = new int[26];
+        int n1 = s.length();
+        int n2 = t.length();
+        for (int i = 0; i < n1; i++) {
+            int idx1 = s.charAt(i) - 'a';
+            int idx2 = t.charAt(i) - 'a';
+            freq1[idx1]++;
+            freq2[idx2]++;
+        }
+        int idx2 = t.charAt(n2 - 1) - 'a';
+        freq2[idx2]++;
+
+        for (int i = 0; i < 26; i++) {
+            if (freq1[i] != freq2[i])
+                return (char) (i + 'a');
+        }
+        return 0;
+    }
+}
