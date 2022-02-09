@@ -1,0 +1,32 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        int n = nums.length;
+        HashMap<Integer, int[]> hm = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int key = nums[i] - k;
+            int[] val = new int[2];
+            val[0] = nums[i];
+            val = hm.getOrDefault(key, val);
+            val[1]++;
+            hm.put(key, val);
+        }
+
+        HashSet<String> hs = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            int key = nums[i];
+            if (hm.containsKey(key)) {
+                int[] val = hm.get(key);
+                if (val[0] == key) {
+                    if (val[1] > 1)
+                        hs.add(key + " " + val[0]);
+                } else {
+                    hs.add(key + " " + val[0]);
+                }
+            }
+        }
+        return hs.size();
+    }
+}
