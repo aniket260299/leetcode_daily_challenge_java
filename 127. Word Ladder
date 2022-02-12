@@ -1,0 +1,59 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        int N = wordList.size();
+        if (!wordList.contains(endWord))
+            return 0;
+        int n = beginWord.length();
+        HashMap<String, LinkedList<String>> graph = new HashMap<>();
+        addEdge(beginWord, graph, n);
+        for (int i = 0; i < N; i++) {
+            String word = wordList.get(i);
+            addEdge(word, graph, n);
+        }
+
+        HashSet<String> visited = new HashSet<>();
+        Queue<String> q = new LinkedList<>();
+        q.add(beginWord);
+        int level = 1;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                String val = q.remove();
+                if (val.equals(endWord))
+                    return level;
+                visited.add(val);
+                StringBuilder sb = new StringBuilder(val);
+                for (int j = 0; j < n; j++) {
+                    char ch = sb.charAt(j);
+                    sb.setCharAt(j, '*');
+                    String key = sb.toString();
+                    LinkedList<String> li = graph.get(key);
+                    for (String str : li) {
+                        if (visited.contains(str))
+                            continue;
+                        q.add(str);
+                    }
+                    sb.setCharAt(j, ch);
+                }
+            }
+            level++;
+        }
+        return 0;
+    }
+
+    public void addEdge(String word, HashMap<String, LinkedList<String>> graph, int n) {
+        StringBuilder sb = new StringBuilder(word);
+        for (int j = 0; j < n; j++) {
+            char ch = word.charAt(j);
+            sb.setCharAt(j, '*');
+            String key = sb.toString();
+            LinkedList<String> li = graph.getOrDefault(key, new LinkedList<>());
+            li.add(word);
+            graph.put(key, li);
+            sb.setCharAt(j, ch);
+        }
+    }
+}
