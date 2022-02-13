@@ -1,0 +1,20 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> output = new LinkedList();
+        output.add(new LinkedList<Integer>());
+
+        for (int num : nums) {
+            List<List<Integer>> newList = new LinkedList();
+            for (List<Integer> li : output) {
+                LinkedList<Integer> li1 = new LinkedList<Integer>(li);
+                li1.add(num);
+                newList.add(li1);
+            }
+            output.addAll(newList);
+        }
+        return output;
+    }
+}
