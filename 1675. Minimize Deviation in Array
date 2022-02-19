@@ -1,0 +1,25 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int minimumDeviation(int[] nums) {
+        int n = nums.length;
+        int min = Integer.MAX_VALUE;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+        for (int num : nums) {
+            if (num % 2 != 0)
+                num *= 2;
+            min = Math.min(num, min);
+            pq.add(num);
+        }
+
+        int diff = Integer.MAX_VALUE;
+        while (pq.peek() % 2 == 0) {
+            int max = pq.remove();
+            diff = Math.min(diff, max - min);
+            min = Math.min(max / 2, min);
+            pq.add(max / 2);
+        }
+        return Math.min(diff, pq.peek() - min);
+    }
+}
