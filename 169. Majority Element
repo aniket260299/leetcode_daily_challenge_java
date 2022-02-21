@@ -1,0 +1,18 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int majorityElement(int[] nums) {
+        int n = nums.length;
+        double mid = n / 2.0;
+        HashMap<Integer, Integer> hm = new HashMap<>(n);
+        for (int i = 0; i < n; i++) {
+            int key = nums[i];
+            int val = hm.getOrDefault(key, 0) + 1;
+            if (val > mid)
+                return key;
+            hm.put(key, val);
+        }
+        return 0;
+    }
+}
