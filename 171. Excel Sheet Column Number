@@ -1,0 +1,16 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int titleToNumber(String columnTitle) {
+        int n = columnTitle.length();
+        int pow = 1;
+        int ans = columnTitle.charAt(n - 1) - 'A' + 1;
+        for (int i = 1; i < n; i++) {
+            int num = columnTitle.charAt(n - i - 1) - 'A' + 1;
+            pow *= 26;
+            ans += pow * num;
+        }
+        return ans;
+    }
+}
