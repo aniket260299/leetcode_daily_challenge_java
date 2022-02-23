@@ -1,0 +1,36 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public Node cloneGraph(Node node) {
+        Node copy = new Node(node.val);
+        HashMap<Integer, Node> created = new HashMap<>();
+        created.put(node.val, copy);
+        cloneHelper(node, copy, new HashSet<>(), created);
+        return copy;
+    }
+
+    private void cloneHelper(Node orig, Node copy, HashSet<Node> visited, HashMap<Integer, Node> created) {
+        if (visited.contains(orig)) return;
+        visited.add(orig);
+        ArrayList<Node> copyNeighbour = new ArrayList<>();
+        for (Node neighbor : orig.neighbors) {
+            Node copyNeighbor;
+            if (created.containsKey(neighbor.val))
+                copyNeighbor = created.get(neighbor.val);
+            else {
+                copyNeighbor = new Node(neighbor.val);
+                created.put(neighbor.val, copyNeighbor);
+            }
+            copy.neighbors.add(copyNeighbor);
+        }
+
+        int n = orig.neighbors.size();
+        for (int i = 0; i < n; i++) {
+            Node nextOrig = orig.neighbors.get(i);
+            Node nextCopy = copy.neighbors.get(i);
+            if (!visited.contains(nextOrig))
+                cloneHelper(nextOrig, nextCopy, visited, created);
+        }
+    }
+}
