@@ -1,0 +1,45 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        int n = nums.length;
+        ArrayList<String> result = new ArrayList<>();
+        if (n == 0) return result;
+
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(Integer.toString(nums[0]));
+
+
+        int prev = nums[0];
+        int appended = prev;
+
+        for (int i = 1; i < n; i++) {
+            int current = nums[i];
+            if (current != prev + 1) {
+                if (appended != prev) {
+                    sb.append("->");
+                    sb.append(prev);
+                }
+
+                result.add(sb.toString());
+
+                sb = new StringBuilder();
+                sb.append(current);
+                appended = current;
+            }
+            prev = current;
+        }
+
+        if (sb.length() > 0) {
+            if (appended != prev) {
+                sb.append("->");
+                sb.append(prev);
+            }
+            result.add(sb.toString());
+        }
+
+        return result;
+    }
+}
