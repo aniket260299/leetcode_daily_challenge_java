@@ -1,0 +1,43 @@
+/**
+ * @author Aniket
+ */
+class Solution {
+    public int numberOfArithmeticSlices(int[] nums) {
+        int n = nums.length;
+        if (n < 3) return 0;
+
+        int totalCount = 0;
+
+        int count = 2;
+        int prev = nums[1];
+        int diff = nums[1] - nums[0];
+        for (int i = 2; i < n; i++) {
+            int currentDiff = nums[i] - prev;
+            if (currentDiff == diff) {
+                count++;
+            } else {
+                if (count >= 3)
+                    totalCount += findCount(count);
+                count = 2;
+                diff = currentDiff;
+            }
+            prev = nums[i];
+        }
+
+        if (count >= 3)
+            totalCount += findCount(count);
+
+        return totalCount;
+    }
+
+    public int findCount(int count) {
+        int totalCount = 0;
+
+        for (int i = 1; i <= count - 2; i++)
+            totalCount += i;
+
+        return totalCount;
+
+    }
+
+}
