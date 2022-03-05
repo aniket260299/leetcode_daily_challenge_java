@@ -1,0 +1,33 @@
+/**
+ * @author Aniket
+ */
+ class Solution {
+    HashMap<Integer, Integer> point;
+    HashMap<Integer, Integer> cache;
+
+    public int deleteAndEarn(int[] nums) {
+        point = new HashMap<>();
+        int max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            int val = point.getOrDefault(num, 0) + num;
+            point.put(num, val);
+            max = Math.max(max, num);
+        }
+        cache = new HashMap<>();
+        return dfs(max);
+    }
+
+    private int dfs(int num) {
+        if (num == 0) return 0;
+        if (num == 1) return point.getOrDefault(1, 0);
+        if (cache.containsKey(num)) return cache.get(num);
+
+        int notAdd = dfs(num - 1);
+        int toAdd = dfs(num - 2) + point.getOrDefault(num, 0);
+
+        int value = Math.max(notAdd, toAdd);
+        cache.put(num, value);
+
+        return value;
+    }
+}
