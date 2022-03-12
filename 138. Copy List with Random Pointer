@@ -1,0 +1,41 @@
+/**
+ * @author Aniket
+ */
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+
+        HashMap<Node, Integer> origMap = new HashMap<>();
+        HashMap<Integer, Node> copyMap = new HashMap<>();
+
+        Node copy = new Node(0);
+        Node tail = copy;
+        Node current = head;
+        int count = 0;
+
+        while (current != null) {
+            tail.next = new Node(current.val);
+            tail = tail.next;
+            origMap.put(current, count);
+            copyMap.put(count, tail);
+            current = current.next;
+            count++;
+        }
+
+        copy = copy.next;
+
+        current = head;
+        Node copyPointer = copy;
+        while (current != null) {
+            if (current.random != null) {
+                int index = origMap.get(current.random);
+                copyPointer.random = copyMap.get(index);
+            }
+            current = current.next;
+            copyPointer = copyPointer.next;
+        }
+
+        return copy;
+    }
+}
