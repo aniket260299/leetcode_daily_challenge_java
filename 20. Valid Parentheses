@@ -8,26 +8,20 @@ class Solution {
         Stack<Character> st = new Stack<>();
         for (int i = 0; i < n; i++) {
             char ch = s.charAt(i);
-            if (ch == '(' || ch == '[' || ch == '{') {
+            if (ch == '{' || ch == '(' || ch == '[') {
                 st.push(ch);
-            }
-
-            if (ch == '}') {
-                if (!st.isEmpty() && st.peek() == '{') st.pop();
-                else return false;
-            }
-
-            if (ch == ')') {
-                if (!st.isEmpty() && st.peek() == '(') st.pop();
-                else return false;
-            }
-
-            if (ch == ']') {
-                if (!st.isEmpty() && st.peek() == '[') st.pop();
-                else return false;
+            } else {
+                if (st.isEmpty() || st.peek() != getOpening(ch)) return false;
+                st.pop();
             }
         }
 
         return st.isEmpty();
+    }
+
+    public char getOpening(char ch) {
+        if (ch == '}') return '{';
+        else if (ch == ']') return '[';
+        else return '(';
     }
 }
