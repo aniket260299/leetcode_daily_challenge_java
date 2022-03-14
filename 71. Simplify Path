@@ -1,0 +1,34 @@
+/**
+ * @author Aniket
+ */
+
+class Solution {
+    public String simplifyPath(String path) {
+        String[] slashSplit = path.split("/");
+
+        Stack<String> st = new Stack<>();
+        for (String str : slashSplit) {
+            if (str.equals("") || str.equals(".")) continue;
+            else if (str.equals("..")) {
+                if (!st.isEmpty()) st.pop();
+            } else st.push(str);
+        }
+
+        StringBuilder ans = new StringBuilder();
+        ans.append('/');
+        if (st.isEmpty()) return ans.toString();
+
+        ArrayList<String> al = new ArrayList<>();
+        while (!st.isEmpty()) al.add(st.pop());
+
+
+        int size = al.size();
+        for (int i = size - 1; i >= 0; i--) {
+            ans.append(al.get(i));
+            ans.append('/');
+        }
+        ans.deleteCharAt(ans.length() - 1);
+
+        return ans.toString();
+    }
+}
